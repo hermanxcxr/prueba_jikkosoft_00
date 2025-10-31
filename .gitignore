@@ -1,0 +1,32 @@
+# Variables de entorno
+.env
+
+# Binarios Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Directorios de dependencias Go
+vendor/
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporales
+tmp/
+temp/
