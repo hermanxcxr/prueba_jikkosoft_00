@@ -11,7 +11,7 @@
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/usuario/redbibliotecas.git
+git clone https://github.com/hermanxcxr/prueba_jikkosoft_00
 cd redbibliotecas
 ```
 
