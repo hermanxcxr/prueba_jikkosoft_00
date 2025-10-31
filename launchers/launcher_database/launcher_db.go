@@ -62,8 +62,9 @@ func main() {
 }
 
 func loadConfig() Config {
-	if err := godotenv.Load(".env"); err != nil {
-		fmt.Println("Advertencia: No se encontró archivo .env, usando valores por defecto")
+	envPath, _ := filepath.Abs("../../.env")
+	if err := godotenv.Load(envPath); err != nil {
+		godotenv.Load(".env")
 	}
 
 	return Config{

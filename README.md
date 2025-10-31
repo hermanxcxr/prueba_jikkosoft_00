@@ -1,11 +1,5 @@
-# Sistema de Gestion de Bibliotecas
+# Sistema de Gestion de Biblioteca multi-sede
 
-Sistema de gestion de bibliotecas multi-sede.
-
-## Estado del Proyecto
-
-Fase 1: Base de datos - Completada
-Fase 2: Backend + Menu Terminal - Completada
 
 ## Requisitos
 
@@ -48,7 +42,7 @@ go mod download
 ### 4. Inicializar la base de datos
 
 ```bash
-go run launcher.go
+go run launchers/launcher.go
 ```
 
 Esto creara la base de datos con tablas y datos iniciales.
@@ -56,15 +50,21 @@ Esto creara la base de datos con tablas y datos iniciales.
 ### 5. Ejecutar el menu terminal
 
 ```bash
-go run menu.go
+go run menu/menu.go
 ```
 
 ## Estructura del Proyecto
 
 ```
 redbibliotecas/
-├── launcher.go                          # Inicializador
-├── menu.go                              # Menu terminal
+├── launchers/
+│   ├── launcher.go                      # Inicializador principal
+│   └── launcher_database/
+│       ├── launcher_db.go
+│       ├── schema.sql
+│       └── seed.sql
+├── menu/
+│   └── menu.go                          # Menu terminal (Fase 2)
 ├── backend/
 │   ├── config/
 │   │   └── config.go
@@ -86,11 +86,6 @@ redbibliotecas/
 │       ├── biblioteca_service.go
 │       ├── busqueda_service.go
 │       └── miembro_service.go
-├── launchers/
-│   └── launcher_database/
-│       ├── launcher_db.go
-│       ├── schema.sql
-│       └── seed.sql
 └── README.md
 ```
 
@@ -98,7 +93,7 @@ redbibliotecas/
 
 ### Menu Terminal
 
-Al ejecutar menu.go se presenta un menu interactivo con las siguientes opciones:
+Al ejecutar menu/menu.go se presenta un menu interactivo con las siguientes opciones:
 
 1. Prestar Libro
 2. Devolver Libro
@@ -152,7 +147,3 @@ Al ejecutar menu.go se presenta un menu interactivo con las siguientes opciones:
 ### Trigger Automatico
 
 La tabla inventario tiene un trigger que calcula automaticamente el hash_busqueda al insertar o actualizar libros.
-
-## Licencia
-
-Prototipo educativo

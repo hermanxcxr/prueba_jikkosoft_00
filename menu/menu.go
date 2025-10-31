@@ -72,13 +72,23 @@ func seleccionarSede() {
 		fmt.Printf("%d. %s\n", sede.ID, sede.Nombre)
 	}
 
-	fmt.Print("\nSeleccione sede: ")
-	fmt.Scan(&sedeActual)
+	valid := false
+	for {
+		fmt.Print("\nSeleccione sede: ")
+		fmt.Scan(&sedeActual)
 
-	for _, sede := range sedes {
-		if sede.ID == sedeActual {
-			nombreSede = sede.Nombre
+		for _, sede := range sedes {
+			if sede.ID == sedeActual {
+				nombreSede = sede.Nombre
+				valid = true
+				break
+			}
+		}
+
+		if valid {
 			break
+		} else {
+			fmt.Println("Sede invalida. Por favor, intente de nuevo.")
 		}
 	}
 
@@ -88,9 +98,7 @@ func seleccionarSede() {
 
 func mostrarMenuPrincipal() {
 	limpiarPantalla()
-	fmt.Println("╔════════════════════════════════════════════════════════╗")
-	fmt.Printf("║  SISTEMA DE BIBLIOTECAS - %-28s║\n", nombreSede)
-	fmt.Println("╚════════════════════════════════════════════════════════╝")
+	fmt.Printf("  SISTEMA DE BIBLIOTECAS - %-28s\n", nombreSede)
 	fmt.Println()
 	fmt.Println("1. Prestar Libro")
 	fmt.Println("2. Devolver Libro")
@@ -153,7 +161,7 @@ func buscarLibro() {
 
 	var termino string
 	fmt.Print("Termino de busqueda: ")
-	fmt.Scanln()
+	fmt.Print()
 	fmt.Scanln(&termino)
 
 	resultados, err := service.BuscarLibros(db, termino, sedeActual)
@@ -180,7 +188,7 @@ func buscarLibro() {
 
 	fmt.Print("\n¿Desea ver copias disponibles de algun libro? (s/n): ")
 	var respuesta string
-	fmt.Scan(&respuesta)
+	fmt.Scanln(&respuesta)
 
 	if respuesta == "s" || respuesta == "S" {
 		var inventarioID int

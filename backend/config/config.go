@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
@@ -15,7 +16,10 @@ type Config struct {
 }
 
 func Load() *Config {
-	godotenv.Load(".env")
+	envPath, _ := filepath.Abs("../.env")
+	if err := godotenv.Load(envPath); err != nil {
+		godotenv.Load(".env")
+	}
 
 	return &Config{
 		DBHost:     getEnv("DB_HOST", "localhost"),
