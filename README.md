@@ -4,7 +4,8 @@ Sistema de gestion de bibliotecas multi-sede.
 
 ## Estado del Proyecto
 
-Fase 1: Base de datos - Implementada
+Fase 1: Base de datos - Completada
+Fase 2: Backend + Menu Terminal - Completada
 
 ## Requisitos
 
@@ -50,51 +51,107 @@ go mod download
 go run launcher.go
 ```
 
-Esto ejecutara el launcher de base de datos que creara:
-- Base de datos biblioteca
-- Tablas necesarias (sedes, inventario, copias, miembros, prestamos)
-- Datos iniciales (2 sedes, 10 libros, 30 copias, 5 miembros)
+Esto creara la base de datos con tablas y datos iniciales.
+
+### 5. Ejecutar el menu terminal
+
+```bash
+go run menu.go
+```
 
 ## Estructura del Proyecto
 
 ```
 redbibliotecas/
-├── launcher.go                          # Launcher principal
+├── launcher.go                          # Inicializador
+├── menu.go                              # Menu terminal
+├── backend/
+│   ├── config/
+│   │   └── config.go
+│   ├── database/
+│   │   └── connection.go
+│   ├── models/
+│   │   ├── sede.go
+│   │   ├── inventario.go
+│   │   ├── copia.go
+│   │   ├── miembro.go
+│   │   └── prestamo.go
+│   ├── repository/
+│   │   ├── sede_repository.go
+│   │   ├── inventario_repository.go
+│   │   ├── copia_repository.go
+│   │   ├── miembro_repository.go
+│   │   └── prestamo_repository.go
+│   └── service/
+│       ├── biblioteca_service.go
+│       ├── busqueda_service.go
+│       └── miembro_service.go
 ├── launchers/
 │   └── launcher_database/
-│       ├── launcher_db.go               # Inicializador de BD
-│       ├── schema.sql                   # Esquema de tablas
-│       └── seed.sql                     # Datos iniciales
-├── .env.example                         # Plantilla de configuracion
+│       ├── launcher_db.go
+│       ├── schema.sql
+│       └── seed.sql
 └── README.md
 ```
+
+## Funcionalidades
+
+### Menu Terminal
+
+Al ejecutar menu.go se presenta un menu interactivo con las siguientes opciones:
+
+1. Prestar Libro
+2. Devolver Libro
+3. Buscar Libro
+4. Gestionar Miembros
+5. Ver Estadisticas
+6. Cambiar Sede
+7. Salir
+
+### Prestar Libro
+
+- Solicita codigo de copia
+- Solicita ID de miembro
+- Valida disponibilidad
+- Valida que el miembro no tenga mas de 3 prestamos activos
+- Registra el prestamo
+- Actualiza estado de la copia a prestado
+
+### Devolver Libro
+
+- Solicita codigo de copia
+- Busca el prestamo activo
+- Registra la devolucion
+- Actualiza la ubicacion de la copia a la sede actual
+- Actualiza estado de la copia a disponible
+
+### Buscar Libro
+
+- Solicita termino de busqueda
+- Busca por titulo, autor o ISBN
+- Muestra resultados con disponibilidad por sede
+- Permite ver codigos de copias disponibles
+
+### Gestionar Miembros
+
+- Listar todos los miembros
+- Crear nuevo miembro
+- Editar miembro existente
+- Eliminar miembro (solo si no tiene prestamos activos)
 
 ## Base de Datos
 
 ### Tablas
 
-- **sedes**: Sedes de la biblioteca (2 registros)
-- **inventario**: Catalogo de libros (10 registros)
-- **copias**: Copias fisicas de libros (30 registros)
-- **miembros**: Miembros registrados (5 registros)
-- **prestamos**: Registro de prestamos (vacia inicialmente)
+- sedes: 2 registros
+- inventario: 10 registros
+- copias: 30 registros
+- miembros: 5 registros
+- prestamos: registros de prestamos
 
-### Verificacion
+### Trigger Automatico
 
-Conectarse a la base de datos:
-
-```bash
-psql -U postgres -d biblioteca
-```
-
-Verificar datos:
-
-```sql
-SELECT COUNT(*) FROM sedes;      -- 2
-SELECT COUNT(*) FROM inventario; -- 10
-SELECT COUNT(*) FROM copias;     -- 30
-SELECT COUNT(*) FROM miembros;   -- 5
-```
+La tabla inventario tiene un trigger que calcula automaticamente el hash_busqueda al insertar o actualizar libros.
 
 ## Licencia
 

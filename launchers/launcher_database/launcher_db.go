@@ -20,7 +20,7 @@ type Config struct {
 }
 
 func main() {
-	fmt.Println("=== INICIALIZACION DE BASE DE DATOS ===")
+	fmt.Println(" INICIALIZACION DE BASE DE DATOS ")
 	fmt.Println()
 
 	// Cargar configuración
